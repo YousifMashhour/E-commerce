@@ -1,0 +1,250 @@
+/*cart style*/
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f5f5f5;
+}
+.main-container {
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 20px;
+}
+.cart-container {
+    flex: 2;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    padding: 20px;
+}
+.cart-summary {
+    flex: 1;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    padding: 20px;
+    height: fit-content;
+    position: sticky;
+    top: 20px;
+}
+.cart-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+.cart-item {
+    display: flex;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+.item-image {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    margin-right: 20px;
+    border-radius: 4px;
+    background: #eee; /* placeholder color */
+}
+.item-details {
+    flex-grow: 1;
+}
+.item-name {
+    font-size: 18px;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+.item-price {
+    color: #333333;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.quantity-control {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.quantity-btn {
+    background: #f0f0f0;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+.quantity-btn:hover {
+    background: #e0e0e0;
+}
+.quantity-control span {
+    margin: 0 15px;
+    min-width: 20px;
+    text-align: center;
+}
+.remove-btn {
+    color: white;
+    background:#333333;
+    border:none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+  
+   
+}
+.remove-btn:hover {
+    text-decoration: underline;
+}
+.summary-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #333;
+}
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.summary-label {
+    color: #666;
+}
+.summary-value {
+    font-weight: bold;
+}
+
+.checkout-btn {
+    background-color:#333333;
+    color: white;
+    border: none;
+    padding: 15px;
+    width: 100%;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+.checkout-btn:hover {
+    background-color:#333333 ;
+}
+
+
+/*checkout*/
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+}
+
+.container {
+    display: flex;
+    max-width: 1200px;
+    margin: 20px auto;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+.form-section {
+    flex: 2;
+    padding: 20px;
+    border-right: 1px solid #eee;
+}
+
+.summary-section {
+    flex: 1;
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+h1 {
+    color: #333333;
+    text-align: center;
+}
+ 
+h2 {
+    color: #333;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.phone-input {
+    display: flex;
+}
+
+.phone-input select {
+    width: 30%;
+    margin-right: 5px;
+}
+.phone-input input {
+    width: 70%;
+}
+
+.order-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.total {
+    font-weight: bold;
+    font-size: 18px;
+    margin-top: 20px;
+    padding-top: 10px;
+    border-top: 1px solid #ddd;
+}
+
+.btn {
+    background-color: #333333;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.btn:hover {
+    background-color: #333333;
+}
+.cancel-btn {
+    background-color:#333333;
+    margin-right: 10px;
+}
+
+.button-group {
+    display: flex;
+}
+
+.terms {
+    font-size: 12px;
+    color: #666;
+    margin-top: 20px;
+    text-align: center;
+}
