@@ -199,3 +199,48 @@ function deleteOrder(id) {
     updateDatabase(db);
     return true;
 }
+
+// Search utility
+function searchProducts(event) {
+    event.preventDefault();
+    const searchInput = document.getElementById("search-input");
+    const searchTerm = searchInput.value.trim().toLowerCase();
+
+    if (!searchTerm) {
+        return;
+    }
+
+    const results = getProducts().filter(p => p.name.toLowerCase().includes(searchTerm));
+
+    localStorage.setItem("searchTerm", searchTerm);
+    localStorage.setItem("searchResults", JSON.stringify(results));
+
+    window.location.href = "search-results.html";
+}
+
+function displaySearchResults() {
+    const results = JSON.parse(localStorage.getItem("searchResults"));
+    const searchTerm = localStorage.getItem("searchTerm");
+
+    const searchTermHeader = document.getElementById("term-header");
+    searchTermHeader.innerHTML += searchTerm;
+
+    const productsContainer = document.getElementById("cards-container");
+
+    for (let i = 0; i < results.length; i++) {
+        productsContainer.innerHTML += `
+            <div class="col">
+                <div class="card h-100" style="width: 18rem;">
+                    <img src="https://placehold.co/600x400" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title">${results[i].name}</h5>
+                        <p class="card-text">${results[i].description}</p>
+                        <div class="d-flex align-items-baseline">
+                            <sup class="fs-6">EGP</sup>
+                            <p class="fs-4 fw-bold">${results[i].price}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+    }
+}
