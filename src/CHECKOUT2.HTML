@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+</head>
+<body class="bg-light">
+    <div class="container py-5">
+        <div class="card mx-auto" style="max-width: 600px;">
+            <div class="card-body p-4">
+                <h1 class="text-center mb-4"><i class="bi bi-house-door"></i> Furniture</h1>
+                <h2 class="card-title mb-4">Add New Address</h2>
+                
+                <form id="checkout-form">
+                    <div class="row mb-3">
+                        <div class="col-md-6 mb-3 mb-md-0">
+                            <label for="first-name" class="form-label">First Name</label>
+                            <input type="text" class="form-control" id="first-name" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="last-name" class="form-label">Last Name</label>
+                            <input type="text" class="form-control" id="last-name" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="phone-number" class="form-label">Phone Number</label>
+                        <div class="input-group">
+                            <select class="form-select" style="max-width: 120px;">
+                                <option>+20</option>
+                            </select>
+                            <input type="tel" class="form-control" id="phone-number" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="additionalPhone" class="form-label">Additional Phone Number (optional)</label>
+                        <div class="input-group">
+                            <select class="form-select" style="max-width: 120px;">
+                                <option>+20</option>
+                            </select>
+                            <input type="tel" class="form-control" id="additionalPhone">
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="address" class="form-label">Address</label>
+                        <input type="text" class="form-control" id="address" required>
+                    </div>
+
+                    <div class="d-flex justify-content-between mb-3">
+                        <button type="button" class="btn btn-secondary" id="cancel-btn">Cancel</button>
+                        <button type="submit" class="btn btn-primary" id="save-btn">Save Address</button>
+                    </div>
+
+                    <p class="text-muted small text-center mt-4">
+                        By proceeding, you are automatically accepting the <a href="#" class="text-decoration-none">Terms & Conditions</a>
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- JavaScript File -->
+    <script src="check.js"></script>
+</body>
+</html>
