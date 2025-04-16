@@ -209,27 +209,15 @@
             </ul>
         </div>
         <!--------------------------------------------------------------- Footer End --------------------------------------->
+        <script src="main.js"></script>
         <script>
-            const ecommData = {
-                products: [
-                    { id: 1, name: "Red Chair", price: 100, stock: 50, description: "A red chair", image: "https://placehold.co/600x400" },
-                    { id: 2, name: "Table", price: 140, stock: 10, description: "A table", image: "https://placehold.co/600x400" },
-                    { id: 3, name: "Bench", price: 200, stock: 40, description: "A bench", image: "https://placehold.co/600x400" },
-                    { id: 4, name: "Bed", price: 180, stock: 0, description: "A bed", image: "https://placehold.co/600x400" },
-                    { id: 5, name: "Blue Chair", price: 100, stock: 50, description: "A blue chair", image: "https://placehold.co/600x400" },
-                ],
-                categories: [
-                    { id: 1, name: "Chairs", itemsIds: [1, 5], image: "https://placehold.co/600x400" },
-                    { id: 2, name: "Tables", itemsIds: [2], image: "https://placehold.co/600x400" },
-                    { id: 3, name: "Benches", itemsIds: [3], image: "https://placehold.co/600x400" },
-                    { id: 4, name: "Beds", itemsIds: [4], image: "https://placehold.co/600x400" },
-                ]
-            };
+            const products = getProducts();
+            const categories = getCategories();
         
             const productsContainer = document.querySelector(".row-cols-1");
         
             function getCategoryName(productId) {
-                const category = ecommData.categories.find(cat => cat.itemsIds.includes(productId));
+                const category = categories.find(cat => cat.itemsIds.includes(productId));
                 return category ? category.name : "Unknown";
             }
         
@@ -265,7 +253,7 @@
             }
         
             function getFilteredProducts() {
-                let filtered = [...ecommData.products];
+                let filtered = [...products];
         
                 // Price Filter
                 const maxPrice = parseInt(document.getElementById("priceRange").value);
@@ -312,8 +300,6 @@
                 renderProducts(getFilteredProducts());
             });
         </script>
-        
-        
         <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     </body>
 </html>

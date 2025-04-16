@@ -8,7 +8,6 @@
         <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     </head>
     <body>
-
         <!-- Navbar Start-->
         <nav class="navbar px-md-5 sticky-top navbar-expand-sm bg-dark" data-bs-theme="dark">
             <div class="container-fluid">
@@ -255,12 +254,13 @@
             </ul>
         </div>
         <!---------------------------------------- Footer End --------------------------->
-        <script src="data.js"></script>
+        <script src="main.js"></script>
         <script>
             const queryParams = new URLSearchParams(window.location.search);
             const productId = parseInt(queryParams.get('id'));
-            const products = JSON.parse(localStorage.getItem("products"));
-            const categories = JSON.parse(localStorage.getItem("categories"));
+
+            const products = getProducts();
+            const categories = getCategories();
 
             const product = products.find(p => p.id === productId);
 
@@ -276,12 +276,12 @@
                 document.querySelector(".fw-bold.mb-3").textContent = product.name;
                 document.querySelector(".text-muted.mb-2").textContent = `Category: ${categoryName}`;
                 document.querySelector("h4.text-success").textContent = `EGP ${product.price.toFixed(2)}`;
-                document.querySelector("form + p")?.remove();
+                document.querySelector("form2 + p")?.remove();
 
                 const descPara = document.createElement("p");
                 descPara.textContent = product.description;
                 descPara.classList.add("mb-4");
-                document.querySelector("form").before(descPara);
+                document.querySelector("form2").before(descPara);
             } else {
                 alert("Product not found!");
             }
