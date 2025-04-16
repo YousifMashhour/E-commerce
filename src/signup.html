@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>Furniture - Register</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+        <style>
+            body {
+                background-color: #f9f9f9;
+            }
+            .card {
+                max-width: 400px;
+                width: 100%;
+            }
+            .error-message {
+                color: red;
+                font-size: 0.85rem;
+                min-height: 18px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+            <div class="card p-4 shadow">
+                <div class="text-center mb-3">
+                    <img src="assets/icon.png" alt="Logo" width="80">
+                    <h3 class="mt-2">Welcome to Furniture</h3>
+                    <h5>Register</h5>
+                </div>
+                <form id="registerForm">
+                    <div class="mb-2">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" required>
+                        <div class="error-message" id="usernameError"></div>
+                    </div>
+                    <div class="mb-2">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" required>
+                        <div class="error-message" id="emailError"></div>
+                    </div>
+                    <div class="mb-2">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" required>
+                        <div class="error-message" id="passwordError"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="repassword" class="form-label">Re-enter Password</label>
+                        <input type="password" class="form-control" id="repassword" required>
+                        <div class="error-message" id="repasswordError"></div>
+                    </div>
+                    <button type="submit" class="btn btn-secondary w-100">Register</button>
+                    <div class="text-center mt-2">
+                        <a href="login.html">Already have an account?</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <script>
+            document.getElementById("registerForm").addEventListener("submit", function (e) {
+                e.preventDefault();
+                
+                // Elements
+                const username = document.getElementById("username").value.trim();
+                const email = document.getElementById("email").value.trim();
+                const password = document.getElementById("password").value;
+                const repassword = document.getElementById("repassword").value;
+                
+                const usernameError = document.getElementById("usernameError");
+                const emailError = document.getElementById("emailError");
+                const passwordError = document.getElementById("passwordError");
+                const repasswordError = document.getElementById("repasswordError");
+                
+                // Clear old messages
+                usernameError.textContent = "";
+                emailError.textContent = "";
+                passwordError.textContent = "";
+                repasswordError.textContent = "";
+                
+                // Validation
+                let isValid = true;
+                
+                if (username.length < 3) {
+                    usernameError.textContent = "Username must be at least 3 characters.";
+                    isValid = false;
+                }
+                
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    emailError.textContent = "Enter a valid email address.";
+                    isValid = false;
+                }
+                
+                const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
+                if (!passwordRegex.test(password)) {
+                    passwordError.textContent = "Password must be at least 8 characters long and include uppercase, lowercase, number, and special character.";
+                    isValid = false;
+                }
+                
+                if (password !== repassword) {
+                    repasswordError.textContent = "Passwords do not match.";
+                    isValid = false;
+                }
+                
+                // Save if valid
+                if (isValid) {
+                    const users = getUsers();
+                    if (users.find(u => u.email === email)) {
+                        emailError.textContent = "Email already exists.";
+                    } else {
+                        const newUser = {
+                            username,
+                            email,
+                            password,
+                            isAdmin: false
+                        };
+                        addUser(newUser);
+                        localStorage.setItem("loggedInUser", JSON.stringify(newUser));
+                        window.location.href = "home.html";
+                    }
+                }
+            });
+        </script>
+
+        <script src="main.js"></script>
+    </body>
+</html>
