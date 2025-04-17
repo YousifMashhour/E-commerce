@@ -55,38 +55,13 @@
         <!-- Navbar End -->
 
         <!-- Main Content Start -->
-        <div class="container d-flex flex-column gap-3 my-3">
+        <div class="container my-4">
+            <div class="container d-flex flex-column gap-3 my-3" id="items-container">
 
-            <div class="d-flex align-items-center">
-                <img src="https://placehold.co/600x400" class="me-3" width="100">
-                <div class="d-flex flex-column">
-                    <p class="mb-2">Product name</p>
-                    
-                    <div class="d-flex align-items-center mb-2">
-                        <button class="btn btn-sm btn-outline-secondary">-</button>
-                        <span class="mx-2">0</span>
-                        <button class="btn btn-sm btn-outline-secondary">+</button>
-                    </div>
-                    
-                    <button class="btn btn-sm btn-danger align-self-start">Remove</button>
-                </div>
             </div>
-
-            <div class="d-flex align-items-center">
-                <img src="https://placehold.co/600x400" class="me-3" width="100">
-                <div class="d-flex flex-column">
-                    <p class="mb-2">Product name</p>
-                    
-                    <div class="d-flex align-items-center mb-2">
-                        <button class="btn btn-sm btn-outline-secondary">-</button>
-                        <span class="mx-2">0</span>
-                        <button class="btn btn-sm btn-outline-secondary">+</button>
-                    </div>
-                    
-                    <button class="btn btn-sm btn-danger align-self-start">Remove</button>
-                </div>
+            <div class="d-flex justify-content-center align-items-center">
+                <a href="./CHECKOUT2.HTML" class="btn btn-success">Go to Checkout</a>
             </div>
-
         </div>
         <!-- Main Content End -->
 
@@ -157,5 +132,29 @@
         <!-- Footer End -->
 
         <script src="main.js"></script>
+        <script>
+            const currentUserOrder = getOrders().filter(order => order.customerId === JSON.parse(localStorage.getItem("loggedInUser")).id)[0];
+            const orderItems = currentUserOrder.items;
+
+            const ordersContainer = document.getElementById("items-container");
+
+            orderItems.forEach(item => {
+                const product = getProductById(item.productId);
+                ordersContainer.innerHTML += `
+                    <div class="d-flex align-items-center">
+                        <img src=${product.image} class="me-3" width="100">
+                        <div class="d-flex flex-column">
+                            <p class="mb-2">${product.name}</p>
+                            
+                            <div class="d-flex align-items-center mb-2">
+                                <span class="mx-2">Quantity: ${item.quantity}</span>
+                            </div>
+                            
+                            <button class="btn btn-sm btn-danger align-self-start">Remove</button>
+                        </div>
+                    </div>                
+                `;
+            });
+        </script>
     </body>
 </html>
