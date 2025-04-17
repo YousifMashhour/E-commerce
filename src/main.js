@@ -21,12 +21,12 @@ const ecommData = {
     ],
 
     orders: [
-        { id: 1, customreId: 2, items: [{productId: 1, quantity: 2}], total: 200 },
-        { id: 2, customreId: 3, items: [{productId: 1, quantity: 4}, {productId: 2, quantity: 1}], total:  540 },
-        { id: 3, customreId: 3, items: [{productId: 3, quantity: 1}], total: 200 },
+        { id: 1, customerId: 2, items: [{productId: 1, quantity: 2}], total: 200 },
+        { id: 2, customerId: 3, items: [{productId: 1, quantity: 4}, {productId: 2, quantity: 1}], total:  540 },
+        { id: 3, customerId: 3, items: [{productId: 3, quantity: 1}], total: 200 },
     ],
 };
-
+// Seed initial data into localStorage if not already there
 function seedDatabase() {
     if (!localStorage.getItem("DB")) {
         localStorage.setItem("DB", JSON.stringify(ecommData));
@@ -34,7 +34,7 @@ function seedDatabase() {
 }
 seedDatabase();
 
-// Database helper functions
+// Database helpers
 function getDatabase() {
     return JSON.parse(localStorage.getItem("DB"));
 }
@@ -43,10 +43,14 @@ function updateDatabase(data) {
     localStorage.setItem("DB", JSON.stringify(data));
 }
 
-// Catrogory operations
+function generateId(list) {
+    return list.length > 0 ? Math.max(...list.map(item => item.id)) + 1 : 1;
+}
+
+// Category operations
 function addCategory(category) {
     const db = getDatabase();
-    category.id = db.categories.length > 0 ? Math.max(...db.categories.map(c => c.id)) + 1 : 1;
+    category.id = generateId(db.categories);
     db.categories.push(category);
     updateDatabase(db);
 }
@@ -63,7 +67,7 @@ function updateCategory(id, updatedCategory) {
     const db = getDatabase();
     const index = db.categories.findIndex(c => c.id === id);
     if (index !== -1) {
-        db.categories[index] = {...db.categories[index], ...updatedCategory};
+        db.categories[index] = { ...db.categories[index], ...updatedCategory };
         updateDatabase(db);
         return true;
     }
@@ -71,8 +75,14 @@ function updateCategory(id, updatedCategory) {
 }
 
 function deleteCategory(id) {
-    // TODO: also delete all products in this category
     const db = getDatabase();
+    const category = db.categories.find(c => c.id === id);
+
+    if (category) {
+        // Remove products that belong to this category
+        db.products = db.products.filter(p => !category.itemsIds.includes(p.id));
+    }
+
     db.categories = db.categories.filter(c => c.id !== id);
     updateDatabase(db);
 }
@@ -80,7 +90,7 @@ function deleteCategory(id) {
 // Product operations
 function addProduct(product) {
     const db = getDatabase();
-    product.id = db.products.length > 0 ? Math.max(...db.products.map(p => p.id)) + 1 : 1;
+    product.id = generateId(db.products);
     db.products.push(product);
     updateDatabase(db);
 }
@@ -95,7 +105,7 @@ function getProductById(id) {
 
 function updateProduct(id, updatedProduct) {
     const db = getDatabase();
-    const index = db.prodcuts.findIndex(p => p.id === id);
+    const index = db.products.findIndex(p => p.id === id);
     if (index !== -1) {
         db.products[index] = { ...db.products[index], ...updatedProduct };
         updateDatabase(db);
@@ -113,7 +123,7 @@ function deleteProduct(id) {
 // User operations
 function addUser(user) {
     const db = getDatabase();
-    user.id = db.users.length > 0 ? Math.max(...db.users.map(u => u.id)) + 1 : 1;
+    user.id = generateId(db.users);
     db.users.push(user);
     updateDatabase(db);
 }
@@ -128,7 +138,7 @@ function getUserById(id) {
 
 function updateUser(id, updatedUser) {
     const db = getDatabase();
-    const index = db.prodcuts.findIndex(u => u.id === id);
+    const index = db.users.findIndex(u => u.id === id);
     if (index !== -1) {
         db.users[index] = { ...db.users[index], ...updatedUser };
         updateDatabase(db);
@@ -146,19 +156,23 @@ function deleteUser(id) {
 // Order operations
 function addOrder(order) {
     const db = getDatabase();
-    order.id = db.orders.length > 0 ? Math.max(...db.orders.map(o => o.id)) : 1;
-    db.orders.push(order);
+    order.id = generateId(db.orders);
 
+    // Check stock before processing
+    for (let item of order.items) {
+        const product = db.products.find(p => p.id === item.productId);
+        if (!product || product.stock < item.quantity) {
+            return false;
+        }
+    }
+
+    // Deduct stock
     order.items.forEach(item => {
         const product = db.products.find(p => p.id === item.productId);
-        if (product) {
-            if (product.stock < item.quantity) {
-                return false;
-            }
-            product.stock -= item.quantity;
-        }
+        product.stock -= item.quantity;
     });
 
+    db.orders.push(order);
     updateDatabase(db);
     return true;
 }
@@ -185,16 +199,18 @@ function updateOrder(id, updatedOrder) {
 function deleteOrder(id) {
     const db = getDatabase();
     const index = db.orders.findIndex(o => o.id === id);
-    if (index === -1) {
-        return false;
-    }
+    if (index === -1) return false;
+
     const order = db.orders[index];
+
+    // Restock products
     order.items.forEach(item => {
         const product = db.products.find(p => p.id === item.productId);
         if (product) {
             product.stock += item.quantity;
         }
     });
+
     db.orders = db.orders.filter(o => o.id !== id);
     updateDatabase(db);
     return true;
@@ -285,7 +301,6 @@ function populateNavbar() {
 }
 
 function logout() {
-    console.log("hello");
     localStorage.setItem("loggedInUser", null);
 }
 
