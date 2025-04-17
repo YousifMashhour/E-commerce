@@ -243,22 +243,29 @@ function displaySearchResults() {
 
     const productsContainer = document.getElementById("cards-container");
 
-    for (let i = 0; i < results.length; i++) {
+    results.forEach(product => {
         productsContainer.innerHTML += `
-            <div class="col">
-                <div class="card h-100" style="width: 18rem;">
-                    <img src="https://placehold.co/600x400" class="card-img-top">
-                    <div class="card-body">
-                        <h5 class="card-title">${results[i].name}</h5>
-                        <p class="card-text">${results[i].description}</p>
-                        <div class="d-flex align-items-baseline">
-                            <sup class="fs-6">EGP</sup>
-                            <p class="fs-4 fw-bold">${results[i].price}</p>
-                        </div>
-                    </div>
-                </div>
-            </div>`;
-    }
+                        <a href="product-details.html?id=${product.id}" class="text-decoration-none text-dark product-card col">
+                            <div class="card h-100 shadow-sm rounded-4 border-0 position-relative overflow-hidden transition">
+                                <button class="btn btn-light position-absolute top-0 end-0 m-2 rounded-circle shadow-sm z-2">
+                                    <i class="fa-regular fa-heart"></i>
+                                </button>
+                                <img src="${product.image}" class="card-img-top rounded-top-4" alt="${product.name}">
+                                <div class="card-body">
+                                    <h5 class="card-title">${product.name}</h5>
+                                    <p class="card-text text-muted">${product.description}</p>
+                                    <div class="d-flex align-items-baseline">
+                                        <sup class="fs-6">EGP</sup>
+                                        <p class="fs-4 fw-bold mb-0">${product.price}</p>
+                                        <sup class="fs-6">.00</sup>
+                                    </div>
+                                </div>
+                                <div class="add-to-cart-overlay position-absolute bottom-0 start-0 end-0 p-3 bg-white border-top d-none">
+                                    <button class="btn btn-success w-100 add-to-cart-btn" data-id="${product.id}">Add to Cart</button>
+                                </div>
+                            </div>
+                        </a>`;
+    });
 }
 
 // login-signup utility
