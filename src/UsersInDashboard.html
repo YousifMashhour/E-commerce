@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>User Management</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
+        <style>
+            body {
+                background-color: #e3e6e8;
+            }
+            .container {
+                max-width: 1000px;
+            }
+            img.thumb {
+                width: 60px;
+                height: auto;
+                object-fit: cover;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container my-5">
+            <h2 class="text-success text-center mb-4">User Management</h2>
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <form id="userForm" class="row g-3 mb-4">
+                        <input type="hidden" id="userId">
+                        <div class="col-md-4">
+                            <label for="userName" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="userName" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="userEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="userEmail" required>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="userPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="userPassword" required>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="userIsAdmin" class="form-label">Is Admin</label>
+                            <select id="userIsAdmin" class="form-select">
+                                <option value="true">Yes</option>
+                                <option value="false">No</option>
+                            </select>
+                        </div>
+                        <div class="col-12 text-end">
+                            <button type="submit" class="btn btn-success">Save User</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <table class="table table-striped table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Is Admin</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="userTableBody"></tbody>
+            </table>
+        </div>
+        <script src="main.js"></script>
+        <script>
+            const users = getUsers();
+
+            const userForm = document.getElementById("userForm");
+            const userTableBody = document.getElementById("userTableBody");
+
+            function renderUsers() {
+                userTableBody.innerHTML = "";
+                getUsers().forEach(user => {
+                    const row = document.createElement("tr");
+                    row.innerHTML = `
+          <td>${user.name}</td>
+          <td>${user.email}</td>
+          <td>${user.isAdmin ? 'Yes' : 'No'}</td>
+          <td>
+            <button class="btn btn-warning btn-sm" onclick="editUser(${user.id})">Edit</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteUser(${user.id});renderUsers();">Delete</button>
+          </td>
+        `;
+                    userTableBody.appendChild(row);
+                });
+            }
+
+            function editUser(id) {
+                const user = users.find(u => u.id === id);
+                document.getElementById("userId").value = user.id;
+                document.getElementById("userName").value = user.name;
+                document.getElementById("userEmail").value = user.email;
+                document.getElementById("userPassword").value = user.password;
+                document.getElementById("userIsAdmin").value = user.isAdmin;
+            }
+
+            // function deleteUser(id) {
+            //     const index = users.findIndex(u => u.id === id);
+            //     if (index > -1) {
+            //         users.splice(index, 1);
+            //         renderUsers();
+            //     }
+            // }
+
+            userForm.addEventListener("submit", function(e) {
+                e.preventDefault();
+                const id = document.getElementById("userId").value;
+                const name = document.getElementById("userName").value;
+                const email = document.getElementById("userEmail").value;
+                const password = document.getElementById("userPassword").value;
+                const isAdmin = document.getElementById("userIsAdmin").value === 'true';
+
+                if (id) {
+                    const user = users.find(u => u.id == id);
+                    user.name = name;
+                    user.email = email;
+                    user.password = password;
+                    user.isAdmin = isAdmin;
+                } else {
+                    const newUser = {
+                        id: users.length ? users[users.length - 1].id + 1 : 1,
+                        name,
+                        email,
+                        password,
+                        isAdmin
+                    };
+                    // users.push(newUser);
+                    addUser(newUser);
+                }
+
+                userForm.reset();
+                document.getElementById("userId").value = "";
+                renderUsers();
+            });
+
+            renderUsers();
+            </script>
+    </body>
+</html>
